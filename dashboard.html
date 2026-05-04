@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bookmark Audit</title>
+  <link rel="icon" type="image/png" href="icons/icon32.png" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+
+  <!-- LOADING SCREEN -->
+  <div id="loader" class="loader">
+    <div class="loader-inner">
+      <div class="loader-eyebrow">cross-referencing</div>
+      <div class="loader-title">an audit in progress</div>
+      <div class="loader-bar">
+        <div class="loader-fill" id="loaderFill"></div>
+      </div>
+      <div class="loader-status" id="loaderStatus">summoning the ledger…</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main id="app" class="app hidden">
+
+    <header class="masthead">
+      <div class="masthead-top">
+        <span class="meta">vol. I &nbsp;·&nbsp; <span id="auditDate">—</span></span>
+        <span class="meta">no. <span id="auditNo">001</span></span>
+      </div>
+      <h1 class="banner">
+        <span class="banner-line">The</span>
+        <span class="banner-main">Bookmark&nbsp;<em>Audit</em></span>
+      </h1>
+      <p class="subtitle">
+        a private review of every page you swore you'd come back to,
+        cross-checked against whether you actually did.
+      </p>
+    </header>
+
+    <!-- SUMMARY -->
+    <section class="summary">
+      <div class="sum-card">
+        <span class="sum-num" id="sumTotal">—</span>
+        <span class="sum-label">total bookmarks</span>
+      </div>
+      <div class="sum-card sum-keep">
+        <span class="sum-num" id="sumKeep">—</span>
+        <span class="sum-label">keep</span>
+        <span class="sum-pct" id="pctKeep">—</span>
+      </div>
+      <div class="sum-card sum-review">
+        <span class="sum-num" id="sumReview">—</span>
+        <span class="sum-label">review</span>
+        <span class="sum-pct" id="pctReview">—</span>
+      </div>
+      <div class="sum-card sum-retire">
+        <span class="sum-num" id="sumRetire">—</span>
+        <span class="sum-label">retire</span>
+        <span class="sum-pct" id="pctRetire">—</span>
+      </div>
+      <div class="sum-card sum-new">
+        <span class="sum-num" id="sumNew">—</span>
+        <span class="sum-label">too new to judge</span>
+      </div>
+    </section>
+
+    <!-- VERDICT KEY -->
+    <section class="key">
+      <h3>How verdicts are decided</h3>
+      <ul>
+        <li><span class="dot keep"></span><strong>Keep</strong> — visited within ~30 days, multiple times.</li>
+        <li><span class="dot review"></span><strong>Review</strong> — visited at least once but not for months, or never within history's reach.</li>
+        <li><span class="dot retire"></span><strong>Retire</strong> — bookmarked long ago, never opened (within recorded history), or untouched for 6+ months.</li>
+        <li><span class="dot new"></span><strong>New</strong> — saved in the last fortnight; benefit of the doubt.</li>
+      </ul>
+      <p class="caveat">
+        Chrome's history typically retains ~90 days. Older bookmarks you've
+        used regularly may show fewer visits than reality. Treat this as a
+        prompt for reflection, not a death sentence.
+      </p>
+    </section>
+
+    <!-- CONTROLS -->
+    <section class="controls">
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-filter="all">All</button>
+        <button class="tab" data-filter="keep">Keep</button>
+        <button class="tab" data-filter="review">Review</button>
+        <button class="tab" data-filter="retire">Retire</button>
+        <button class="tab" data-filter="new">New</button>
+      </div>
+      <div class="controls-right">
+        <label>
+          <span class="ctrl-label">sort</span>
+          <select id="sortSel">
+            <option value="verdict">verdict</option>
+            <option value="lastVisit">last visit (newest)</option>
+            <option value="lastVisitOld">last visit (oldest)</option>
+            <option value="visits">visit count</option>
+            <option value="dateAdded">date added (newest)</option>
+            <option value="dateAddedOld">date added (oldest)</option>
+            <option value="title">title</option>
+          </select>
+        </label>
+        <label class="search">
+          <span class="ctrl-label">find</span>
+          <input id="searchInput" type="search" placeholder="title or url…" />
+        </label>
+      </div>
+    </section>
+
+    <!-- BULK ACTION -->
+    <section class="bulk hidden" id="bulk">
+      <span class="bulk-text">
+        <span id="bulkCount">0</span> selected
+      </span>
+      <div class="bulk-actions">
+        <button id="bulkOpen">Open all</button>
+        <button id="bulkDelete" class="danger">Delete selected</button>
+        <button id="bulkClear">Clear selection</button>
+      </div>
+    </section>
+
+    <!-- ENTRY LIST -->
+    <section class="entries" id="entries"></section>
+
+    <footer class="ledger-foot">
+      <div class="rule-double"></div>
+      <p>
+        — fin —<br />
+        <span class="meta">audit complete · <span id="footDate"></span></span>
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- CONFIRM DIALOG -->
+  <div id="confirm" class="confirm hidden">
+    <div class="confirm-box">
+      <h3 id="confirmTitle">Are you sure?</h3>
+      <p id="confirmText">This will permanently delete the bookmark.</p>
+      <div class="confirm-actions">
+        <button id="confirmCancel">Cancel</button>
+        <button id="confirmOk" class="danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

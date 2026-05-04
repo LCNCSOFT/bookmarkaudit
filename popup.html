@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bookmark Audit</title>
+  <link rel="stylesheet" href="popup.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <div class="frame">
+    <div class="header">
+      <span class="eyebrow">est. for you</span>
+      <h1 class="title">Bookmark<br /><em>Audit</em></h1>
+    </div>
+
+    <div class="quick" id="quick">
+      <div class="stat">
+        <span class="stat-num" id="qTotal">—</span>
+        <span class="stat-label">bookmarked</span>
+      </div>
+      <div class="rule"></div>
+      <div class="stat">
+        <span class="stat-num" id="qFolders">—</span>
+        <span class="stat-label">folders</span>
+      </div>
+    </div>
+
+    <p class="lede">
+      Cross-reference your saved sites with your real browsing patterns.
+      A small ceremony for letting things go.
+    </p>
+
+    <button class="run" id="runBtn">
+      <span>Run the audit</span>
+      <span class="arrow">→</span>
+    </button>
+
+    <div class="footnote">
+      Reads <strong>bookmarks</strong> &amp; <strong>history</strong> locally.
+      Nothing leaves your machine.
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
